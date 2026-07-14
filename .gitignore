@@ -9,33 +9,46 @@ dist/
 web-build/
 expo-env.d.ts
 
-# Native
-.kotlin/
-*.orig.*
+# generated native folders (created by `npx expo prebuild`)
+/ios/
+/android/
+
+# Android / iOS signing & secrets
+/credentials/
 *.jks
+*.keystore
 *.p8
 *.p12
 *.key
 *.mobileprovision
+*.pem
+keystore.properties
+
+# build artifacts
+*.apk
+*.aab
+*.ipa
+/dist/
+
+# local env files
+.env
+.env.*
+!.env.example
 
 # Metro
 .metro-health-check*
+.kotlin/
 
-# debug
+# debug / logs
 npm-debug.*
 yarn-debug.*
 yarn-error.*
+*.log
 
-# macOS
+# OS / editor
 .DS_Store
-*.pem
-
-# local env files
-.env*.local
-
-# typescript
+*.orig.*
+*.swp
+.idea/
+.vscode/
 *.tsbuildinfo
-
-# generated native folders
-/ios
-/android
