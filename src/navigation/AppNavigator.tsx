@@ -7,6 +7,7 @@ import {
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useApp } from '../context/AppContext';
 import { ChatScreen } from '../screens/ChatScreen';
@@ -51,14 +52,17 @@ function TabIcon({ name, focused }: { name: string; focused: boolean }) {
 }
 
 function MainTabs() {
+  const insets = useSafeAreaInsets();
+
   return (
     <Tab.Navigator
+      safeAreaInsets={{ bottom: 0 }}
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarActiveTintColor: colors.ink,
         tabBarInactiveTintColor: '#8A8F89',
         tabBarLabelStyle: styles.tabLabel,
-        tabBarStyle: styles.tabBar,
+        tabBarStyle: [styles.tabBar, { bottom: insets.bottom + 8 }],
         tabBarItemStyle: styles.tabItem,
         tabBarHideOnKeyboard: true,
         tabBarIcon: ({ focused }) => (
@@ -136,7 +140,6 @@ const styles = StyleSheet.create({
     paddingTop: 7,
     paddingBottom: 7,
     marginHorizontal: 14,
-    marginBottom: 10,
     borderTopWidth: 0,
     borderRadius: 24,
     backgroundColor: '#FFFFFF',

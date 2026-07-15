@@ -91,4 +91,5 @@ fi
 
 mkdir -p dist
 cp android/app/build/outputs/apk/release/app-release.apk dist/drape-1.0.0-release.apk
-echo "Signed APK: $ROOT/dist/drape-1.0.0-release.apk"
+cp dist/drape-1.0.0-release.apk drape-1.0.0-release.apk
+echo "Signed APK: $ROOT/drape-1.0.0-release.apk"

@@ -3,14 +3,13 @@ import React, { useRef, useState } from 'react';
 import {
   FlatList,
   Image,
-  KeyboardAvoidingView,
-  Platform,
   Pressable,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from 'react-native';
+import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
 
 import { initialMessages, stylists } from '../data';
 import { MainTabParamList, Message } from '../types';
@@ -43,7 +42,8 @@ export function ChatScreen({ navigation }: Props) {
   return (
     <Screen>
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        automaticOffset
+        behavior="padding"
         style={styles.flex}
       >
         <View style={styles.header}>
@@ -73,6 +73,7 @@ export function ChatScreen({ navigation }: Props) {
           contentContainerStyle={styles.messages}
           data={messages}
           keyExtractor={(item) => item.id}
+          keyboardDismissMode="interactive"
           keyboardShouldPersistTaps="handled"
           onContentSizeChange={() =>
             listRef.current?.scrollToEnd({ animated: true })
@@ -123,6 +124,11 @@ export function ChatScreen({ navigation }: Props) {
             accessibilityLabel="Message Maya"
             multiline
             onChangeText={setDraft}
+            onFocus={() =>
+              requestAnimationFrame(() =>
+                listRef.current?.scrollToEnd({ animated: true }),
+              )
+            }
             onSubmitEditing={send}
             placeholder="Message Maya…"
             placeholderTextColor="#8A8F89"
@@ -197,7 +203,7 @@ const styles = StyleSheet.create({
   composer: {
     paddingHorizontal: 14,
     paddingTop: 10,
-    paddingBottom: Platform.OS === 'ios' ? 7 : 13,
+    paddingBottom: 10,
     flexDirection: 'row',
     alignItems: 'flex-end',
     gap: 8,

@@ -2,11 +2,11 @@ import React, { PropsWithChildren, ReactNode } from 'react';
 import {
   ActivityIndicator,
   Pressable,
-  SafeAreaView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export const colors = {
   ink: '#171A18',
@@ -23,11 +23,28 @@ export const colors = {
 export function Screen({
   children,
   backgroundColor = colors.canvas,
-}: PropsWithChildren<{ backgroundColor?: string }>) {
+  edges = ['top', 'right', 'bottom', 'left'],
+}: PropsWithChildren<{
+  backgroundColor?: string;
+  edges?: Array<'top' | 'right' | 'bottom' | 'left'>;
+}>) {
+  const insets = useSafeAreaInsets();
+
   return (
-    <SafeAreaView style={[styles.screen, { backgroundColor }]}>
+    <View
+      style={[
+        styles.screen,
+        {
+          backgroundColor,
+          paddingTop: edges.includes('top') ? insets.top : 0,
+          paddingRight: edges.includes('right') ? insets.right : 0,
+          paddingBottom: edges.includes('bottom') ? insets.bottom : 0,
+          paddingLeft: edges.includes('left') ? insets.left : 0,
+        },
+      ]}
+    >
       {children}
-    </SafeAreaView>
+    </View>
   );
 }
 

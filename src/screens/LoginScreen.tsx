@@ -1,13 +1,12 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
 import {
-  KeyboardAvoidingView,
-  Platform,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 
 import { useApp } from '../context/AppContext';
 import { Button, colors, Screen } from '../ui';
@@ -37,8 +36,11 @@ export function LoginScreen() {
 
   return (
     <Screen backgroundColor={colors.ink}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      <KeyboardAwareScrollView
+        bottomOffset={24}
+        contentContainerStyle={styles.scrollContent}
+        keyboardDismissMode="interactive"
+        keyboardShouldPersistTaps="handled"
         style={styles.flex}
       >
         <LinearGradient
@@ -112,13 +114,14 @@ export function LoginScreen() {
             Demo authentication · Your session stays on this device
           </Text>
         </View>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   flex: { flex: 1 },
+  scrollContent: { flexGrow: 1 },
   hero: {
     flex: 1,
     paddingHorizontal: 24,
@@ -161,7 +164,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     padding: 24,
-    paddingBottom: Platform.OS === 'ios' ? 20 : 28,
+    paddingBottom: 24,
   },
   authToggle: {
     alignSelf: 'flex-start',
